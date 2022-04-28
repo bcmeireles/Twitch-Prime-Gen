@@ -10,7 +10,7 @@ def main():
 
     time.sleep(2)
 
-    amazon.fill_register(a, {"name": "Magoz Puta", "email": email, "password": "Pila1234"})
+    amazon.fill_register(a, {"name": "Teste Teste", "email": email, "password": "Teste1234"})
 
     time.sleep(2)
 
