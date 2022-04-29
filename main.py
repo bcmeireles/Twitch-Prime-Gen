@@ -14,6 +14,11 @@ def main():
 
     time.sleep(2)
 
+    if amazon.check_error(a):
+        print("ERROR")
+        amazon.destroy_driver(a)
+        exit()
+
     amazon.captcha(a)
 
     time.sleep(2)
@@ -28,9 +33,7 @@ def main():
 
     c = mail.parse_otp(email)
 
-    print(c)
-
-    input()
+    amazon.fill_otp(a, c)
 
     amazon.fill_po(a, "cvf_phone_cc_native_169", "123456789")
 

@@ -1,10 +1,21 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import time
+
+ERRORS = ["Internal Error. Please try again later.",
+            "The phone number you've entered is not valid. Please enter a valid phone number."]
+
+def check_error(driver):
+    for error in ERRORS:
+        if error in driver.page_source:
+            return True
 
 def create_driver():
-    options = webdriver.ChromeOptions()
-    driver = webdriver.Chrome(options=options, executable_path=r"./chromedriver.exe")
+    driver = webdriver.Firefox(executable_path="geckodriver")
     return driver
+
+def destroy_driver(driver):
+    driver.quit()
 
 def register_page(driver):
     driver.get("https://www.amazon.com/")
@@ -23,12 +34,11 @@ def captcha(driver):
         input("Captcha detected. Complete it and then press ENTER to continue...")
 
 def fill_otp(driver, otp):
-    driver.find_element(By.ID, "cvf-input-code").send_keys(otp)
-    #driver.find_element(By.XPATH, "/html/body/div[1]/div[2]/div/div/div/div/div/div[1]/form/div[5]/div[2]/div/input").send_keys(otp)
-    driver.find_element(By.NAME, "a-button-input").click()
-    input()
+    driver.find_element(By.XPATH, "//input[@id='cvf-input-code']").send_keys(otp)
+    driver.find_element(By.ID, "cvf-submit-otp-button").click()
 
 def fill_po(driver, country, number):
+    driver.find_element(By.CLASS_NAME, "a-dropdown-prompt").click()
+    time.sleep(0.5)
     driver.find_element(By.ID, country).click()
-    driver.find_element(By.NAME, "cvf_phone_num").send_keys(number)
-    input()
+    driver.find_element(By.CLASS_NAME, "a-button-input notranslate").send_keys(number)
