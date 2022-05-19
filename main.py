@@ -1,8 +1,24 @@
 import handlers.amazon_handler as amazon
 import handlers.mail_handler as mail
+import handlers.twitch_handler as twitch
 import time
 
 def main():
+    a = amazon.create_driver()
+    twitch.registerPage(a)
+
+    time.sleep(3)
+
+    twitch.fillRegiser(a)
+
+    input()
+
+    twitch.fillEmail(a, "vudconisnhs@gmail.com")
+
+    input()
+
+
+def main2():
     email = mail.gen_email()
 
     a = amazon.create_driver()
@@ -25,7 +41,8 @@ def main():
 
     inbox = mail.get_inbox(email)
 
-    time.sleep(3)
+    while mail.check_mail(inbox, 0):
+        continue
 
     id = mail.get_id(inbox)
 
